@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#bfd2e4">
+  <title>我的导航</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --tech-blue: #0284c7;
+      --tech-cyan: #06b6d4;
+      --tech-purple: #6366f1;
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --text: #334155;
+      --text-dim: #52627a;
+      --card-w: 122px;
+      --card-h: 40px;
+      --glow-shadow: 0 14px 36px -18px rgba(14, 165, 233, 0.6), 0 4px 14px -8px rgba(15, 23, 42, 0.1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* ===== 背景基色 + 圆点 + 网格（加深版） ===== */
+    body {
+      font-family: 'JetBrains Mono', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Roboto, sans-serif;
+      color: var(--text);
+      background-color: #bfd2e4;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(2, 132, 199, 0.16) 1px, transparent 0),
+        linear-gradient(rgba(14, 165, 233, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14, 165, 233, 0.08) 1px, transparent 1px);
+      background-size: 22px 22px, 32px 32px, 32px 32px;
+      background-position: center center;
+      min-height: 100vh;
+      padding: clamp(1.5rem, 4vw, 3rem) 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ===== 波浪光斑 A：冷色主光晕，明显起伏 ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: -25%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(closest-side, rgba(56, 189, 248, 0.48), transparent) 12% 22% / 52vw 52vw no-repeat,
+        radial-gradient(closest-side, rgba(99, 102, 241, 0.38), transparent) 82% 78% / 48vw 48vw no-repeat,
+        radial-gradient(closest-side, rgba(34, 211, 238, 0.42), transparent) 50% 50% / 44vw 44vw no-repeat;
+      animation: waveA 16s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    /* ===== 波浪光斑 B：暖色辅光晕，反向浮动 ===== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: -25%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(closest-side, rgba(251, 191, 36, 0.26), transparent) 78% 16% / 38vw 38vw no-repeat,
+        radial-gradient(closest-side, rgba(244, 114, 182, 0.22), transparent) 22% 84% / 40vw 40vw no-repeat,
+        radial-gradient(closest-side, rgba(139, 92, 246, 0.32), transparent) 55% 35% / 34vw 34vw no-repeat;
+      animation: waveB 20s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    @keyframes waveA {
+      0%   { transform: translate3d(0, 0, 0) scale(1); }
+      25%  { transform: translate3d(-6%, 4%, 0) scale(1.10); }
+      50%  { transform: translate3d(4%, -5%, 0) scale(1.16); }
+      75%  { transform: translate3d(-3%, -2%, 0) scale(1.08); }
+      100% { transform: translate3d(5%, 4%, 0) scale(1.12); }
+    }
+
+    @keyframes waveB {
+      0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+      30%  { transform: translate3d(5%, -4%, 0) scale(1.12) rotate(2deg); }
+      60%  { transform: translate3d(-4%, 5%, 0) scale(1.06) rotate(-2deg); }
+      100% { transform: translate3d(3%, 2%, 0) scale(1.10) rotate(1deg); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1700px;
+      margin: 0 auto;
+    }
+
+    /* ===== 底部波浪带：水平循环流动的 SVG 波浪 ===== */
+    .container::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 1;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='wg1' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%2338bdf8' stop-opacity='0.34'/%3E%3Cstop offset='0.5' stop-color='%236366f1' stop-opacity='0.26'/%3E%3Cstop offset='1' stop-color='%2322d3ee' stop-opacity='0.34'/%3E%3C/linearGradient%3E%3ClinearGradient id='wg2' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%238b5cf6' stop-opacity='0.28'/%3E%3Cstop offset='0.5' stop-color='%2338bdf8' stop-opacity='0.20'/%3E%3Cstop offset='1' stop-color='%238b5cf6' stop-opacity='0.28'/%3E%3C/linearGradient%3E%3ClinearGradient id='wg3' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%2322d3ee' stop-opacity='0.20'/%3E%3Cstop offset='0.5' stop-color='%23a78bfa' stop-opacity='0.16'/%3E%3Cstop offset='1' stop-color='%2322d3ee' stop-opacity='0.20'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23wg1)' d='M0,300 C180,240 360,360 540,300 C720,240 900,360 1080,300 C1260,240 1350,340 1440,300 L1440,400 C1260,340 1080,440 900,400 C720,360 540,460 360,400 C180,340 0,420 0,400 Z'/%3E%3Cpath fill='url(%23wg2)' d='M0,560 C240,500 480,620 720,560 C960,500 1200,620 1440,560 L1440,700 C1200,640 960,760 720,700 C480,640 240,760 0,700 Z'/%3E%3Cpath fill='url(%23wg3)' d='M0,740 C200,690 400,790 600,740 C800,690 1000,790 1200,740 C1300,715 1380,760 1440,740 L1440,860 C1380,880 1300,835 1200,860 C1000,910 800,810 600,860 C400,910 200,810 0,860 Z'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-size: 50% 100%;
+      background-position: 0 100%;
+      animation: waveSlide 20s linear infinite;
+      -webkit-mask-image: linear-gradient(180deg, transparent 8%, black 40%, black 100%);
+      mask-image: linear-gradient(180deg, transparent 8%, black 40%, black 100%);
+      will-change: transform;
+    }
+
+    @keyframes waveSlide {
+      from { transform: translate3d(0, 0, 0); }
+      to   { transform: translate3d(-50%, 0, 0); }
+    }
+
+    /* ===== 顶部波浪带：垂坠向下，反向水平流动 ===== */
+    .container::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200vw;
+      height: 52vh;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.85;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='wt1' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%2338bdf8' stop-opacity='0.28'/%3E%3Cstop offset='0.5' stop-color='%236366f1' stop-opacity='0.20'/%3E%3Cstop offset='1' stop-color='%2322d3ee' stop-opacity='0.28'/%3E%3C/linearGradient%3E%3ClinearGradient id='wt2' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%238b5cf6' stop-opacity='0.22'/%3E%3Cstop offset='0.5' stop-color='%2338bdf8' stop-opacity='0.16'/%3E%3Cstop offset='1' stop-color='%238b5cf6' stop-opacity='0.22'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23wt1)' d='M0,560 C240,500 480,620 720,560 C960,500 1200,620 1440,560 L1440,700 C1200,640 960,760 720,700 C480,640 240,760 0,700 Z'/%3E%3Cpath fill='url(%23wt2)' d='M0,740 C200,690 400,790 600,740 C800,690 1000,790 1200,740 C1300,715 1380,760 1440,740 L1440,900 L0,900 Z'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-size: 50% 100%;
+      background-position: 0 100%;
+      animation: waveSlideTop 26s linear infinite;
+      -webkit-mask-image: linear-gradient(180deg, transparent 8%, black 40%, black 100%);
+      mask-image: linear-gradient(180deg, transparent 8%, black 40%, black 100%);
+      will-change: transform;
+    }
+
+    @keyframes waveSlideTop {
+      from { transform: translate3d(-50%, 0, 0) scaleY(-1); }
+      to   { transform: translate3d(0, 0, 0) scaleY(-1); }
+    }
+
+    /* ===== 页头 ===== */
+    .header {
+      text-align: center;
+      margin-bottom: clamp(1.6rem, 3vw, 2.6rem);
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 14px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(2, 132, 199, 0.24);
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tech-blue);
+      margin-bottom: 0.9rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .header-badge .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .header h1 {
+      font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      background: linear-gradient(120deg, #075985 0%, #0284c7 38%, #4f46e5 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .header p {
+      margin-top: 0.5rem;
+      color: #47566b;
+      font-size: clamp(0.82rem, 1vw, 0.95rem);
+      letter-spacing: 0.14em;
+    }
+
+    /* ===== 搜索框 ===== */
+    .search-box {
+      position: relative;
+      max-width: 380px;
+      margin: 1.2rem auto 0;
+    }
+
+    .search-box input {
+      width: 100%;
+      height: 44px;
+      padding: 0 16px 0 42px;
+      font-family: inherit;
+      font-size: 14px;
+      color: #0f172a;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #b9cade;
+      border-radius: 12px;
+      outline: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .search-box input::placeholder {
+      color: #94a3b8;
+      letter-spacing: 0.04em;
+    }
+
+    .search-box input:focus {
+      background: #ffffff;
+      border-color: rgba(2, 132, 199, 0.6);
+      box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.16), 0 10px 22px -14px rgba(2, 132, 199, 0.9);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: #94a3b8;
+      stroke-width: 2;
+      stroke-linecap: round;
+      pointer-events: none;
+      transition: stroke 0.2s ease;
+    }
+
+    .search-box:focus-within .search-icon {
+      stroke: var(--tech-blue);
+    }
+
+    /* ===== 分类网格 ===== */
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(3, min-content);
+      gap: 1.25rem;
+      justify-content: center;
+    }
+
+    /* ===== 分类面板 ===== */
+    .category {
+      --accent: #0284c7;
+      --accent-2: #38bdf8;
+      --accent-rgb: 2, 132, 199;
+
+      position: relative;
+      width: fit-content;
+      padding: 1.1rem 1.1rem 1.15rem;
+      border-radius: 18px;
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.98);
+      box-shadow: var(--glow-shadow);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s ease, border-color 0.35s ease;
+      animation: riseIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .category::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 14px;
+      right: 14px;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    .category:hover {
+      transform: translateY(-4px);
+      border-color: rgba(var(--accent-rgb), 0.42);
+      box-shadow: 0 22px 46px -20px rgba(var(--accent-rgb), 0.9),
+                  0 0 0 1px rgba(var(--accent-rgb), 0.12);
+    }
+
+    .category:hover::before {
+      opacity: 1;
+    }
+
+    /* ===== 分类标题 ===== */
+    .category-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: 0.02em;
+    }
+
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .category-indicator {
+      width: 4px;
+      height: 15px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.7);
+    }
+
+    .category-spec {
+      font-size: 0.68rem;
+      color: #7a8aa0;
+      background: #e9f0f8;
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid #cfdceb;
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== 4×4 内部网格 ===== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, var(--card-w));
+      grid-auto-rows: var(--card-h);
+      gap: 8px;
+    }
+
+    /* ===== 按钮卡片 ===== */
+    .card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid #d4e0ec;
+      overflow: hidden;
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 3px;
+      height: 0;
+      transform: translateY(-50%);
+      border-radius: 0 3px 3px 0;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      opacity: 0;
+      transition: height 0.25s ease, opacity 0.25s ease;
+    }
+
+    .card:hover {
+      background: #f8fcff;
+      border-color: rgba(var(--accent-rgb), 0.55);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px -10px rgba(var(--accent-rgb), 0.95);
+    }
+
+    .card:hover::before {
+      height: 64%;
+      opacity: 1;
+    }
+
+    .card a {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 0 9px 0 11px;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.2;
+      color: #3b4a5f;
+      text-decoration: none;
+      overflow: hidden;
+      transition: color 0.18s ease;
+    }
+
+    .card:hover a {
+      color: var(--accent);
+    }
+
+    .site-icon {
+      width: 17px;
+      height: 17px;
+      min-width: 17px;
+      margin-right: 7px;
+      border-radius: 4px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .site-title {
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
+
+    .card.empty {
+      background: rgba(255, 255, 255, 0.45);
+      border: 1px dashed #b8c8db;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .card.empty::before {
+      display: none;
+    }
+
+    /* ===== 无结果提示 ===== */
+    .empty-state {
+      display: none;
+      padding: 3rem 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      color: #6b7c92;
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    .is-hidden {
+      display: none !important;
+    }
+
+    /* ===== 页脚 ===== */
+    .footer {
+      margin-top: clamp(2rem, 4vw, 3rem);
+      text-align: center;
+      font-size: 0.78rem;
+      color: #63748a;
+      letter-spacing: 0.12em;
+    }
+
+    .footer span {
+      color: var(--tech-cyan);
+      margin: 0 6px;
+    }
+
+    /* ===== 各分类主题色 ===== */
+    .categories > .category:nth-child(1) { --accent: #0284c7; --accent-2: #38bdf8; --accent-rgb: 2, 132, 199; }
+    .categories > .category:nth-child(2) { --accent: #6366f1; --accent-2: #8b5cf6; --accent-rgb: 99, 102, 241; }
+    .categories > .category:nth-child(3) { --accent: #10b981; --accent-2: #34d399; --accent-rgb: 16, 185, 129; }
+    .categories > .category:nth-child(4) { --accent: #f43f5e; --accent-2: #fb7185; --accent-rgb: 244, 63, 94; }
+    .categories > .category:nth-child(5) { --accent: #f59e0b; --accent-2: #fbbf24; --accent-rgb: 245, 158, 11; }
+    .categories > .category:nth-child(6) { --accent: #06b6d4; --accent-2: #22d3ee; --accent-rgb: 6, 182, 212; }
+    .categories > .category:nth-child(7) { --accent: #8b5cf6; --accent-2: #a78bfa; --accent-rgb: 139, 92, 246; }
+    .categories > .category:nth-child(8) { --accent: #ec4899; --accent-2: #f472b6; --accent-rgb: 236, 72, 153; }
+    .categories > .category:nth-child(9) { --accent: #14b8a6; --accent-2: #2dd4bf; --accent-rgb: 20, 184, 166; }
+
+    /* 入场延迟 */
+    .categories > .category:nth-child(1) { animation-delay: 0.04s; }
+    .categories > .category:nth-child(2) { animation-delay: 0.09s; }
+    .categories > .category:nth-child(3) { animation-delay: 0.14s; }
+    .categories > .category:nth-child(4) { animation-delay: 0.19s; }
+    .categories > .category:nth-child(5) { animation-delay: 0.24s; }
+    .categories > .category:nth-child(6) { animation-delay: 0.29s; }
+    .categories > .category:nth-child(7) { animation-delay: 0.34s; }
+    .categories > .category:nth-child(8) { animation-delay: 0.39s; }
+    .categories > .category:nth-child(9) { animation-delay: 0.44s; }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 1560px) {
+      .categories {
+        grid-template-columns: repeat(2, min-content);
+      }
+    }
+
+    @media (max-width: 1060px) {
+      .categories {
+        grid-template-columns: min-content;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1.2rem 0.8rem 1.5rem;
+      }
+
+      /* 移动端简化背景动画，降低功耗 */
+      body::before {
+        inset: -25%;
+        background:
+          radial-gradient(closest-side, rgba(56, 189, 248, 0.36), transparent) 10% 15% / 70vw 70vw no-repeat,
+          radial-gradient(closest-side, rgba(139, 92, 246, 0.28), transparent) 90% 90% / 75vw 75vw no-repeat;
+        animation: waveA 26s ease-in-out infinite alternate;
+      }
+
+      body::after {
+        display: none;
+      }
+
+      .container::before {
+        animation-duration: 36s;
+        opacity: 0.8;
+      }
+
+      .container::after {
+        height: 40vh;
+        opacity: 0.55;
+        animation-duration: 46s;
+      }
+
+      .header {
+        margin-bottom: 1.4rem;
+      }
+
+      .header p {
+        letter-spacing: 0.1em;
+      }
+
+      .search-box {
+        max-width: 100%;
+        margin-top: 1rem;
+      }
+
+      .categories {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        width: 100%;
+      }
+
+      .category {
+        width: 100%;
+        padding: 0.95rem 0.9rem 1rem;
+        border-radius: 16px;
+      }
+
+      .category:hover {
+        transform: none;
+        box-shadow: var(--glow-shadow);
+      }
+
+      .category-spec {
+        display: none;
+      }
+
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 46px;
+        gap: 8px;
+      }
+
+      .card.empty {
+        display: none;
+      }
+
+      .card:hover {
+        transform: none;
+        box-shadow: none;
+        background: #ffffff;
+        border-color: #d4e0ec;
+      }
+
+      .card:hover::before {
+        height: 0;
+        opacity: 0;
+      }
+
+      .card:hover a {
+        color: #3b4a5f;
+      }
+
+      .card:active {
+        background: #f0f9ff;
+        border-color: rgba(var(--accent-rgb), 0.55);
+        transform: scale(0.97);
+      }
+
+      .card:active a {
+        color: var(--accent);
+      }
+
+      .site-icon {
+        width: 18px;
+        height: 18px;
+        min-width: 18px;
+        margin-right: 8px;
+      }
+
+      .card a {
+        font-size: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header-badge">
+      <span class="pulse-dot"></span>
+      System Active
+    </div>
+    <h1>⌘ 我的导航</h1>
+    <p>轻量 · 快捷 · 终端直达</p>
+
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+      </svg>
+      <input id="siteSearch" type="text" placeholder="搜索站点 / 域名…" autocomplete="off" spellcheck="false">
+    </div>
+  </div>
+
+  <div class="categories">
+    <!-- ===== 分类1：PT站点 ===== -->
+    <div class="category">
+      <div class="category-title">
+        <div class="title-left">
+          <span class="category-indicator"></span>
+          <span>🔖 PT站点</span>
+        </div>
+        <span class="category-spec">4×4</span>
+      </div>
+      <div class="card-grid">
+        <div class="card"><a href="https://kp.m-team.cc" target="_blank"><span class="site-title">馒头</span></a></div>
+        <div class="card"><a href="https://springsunday.net" target="_blank"><span class="site-title">春天</span></a></div>
+        <div class="card"><a href="https://1ptba.com" target="_blank"><span class="site-title">1ptba</span></a></div>
+        <div class="card"><a href="https://carpt.net" target="_blank"><span class="site-title">carpt</span></a></div>
+        <div class="card"><a href="https://et8.org" target="_blank"><span class="site-title">精品论坛</span></a></div>
+        <div class="card"><a href="https://open.cd" target="_blank"><span class="site-title">皇后音乐</span></a></div>
+        <div class="card"><a href="https://www.pttime.org" target="_blank"><span class="site-title">PTT</span></a></div>
+        <div class="card"><a href="https://hdtime.org" target="_blank"><span class="site-title">高清时间</span></a></div>
+        <div class="card"><a href="https://hdarea.club" target="_blank"><span class="site-title">高清视界</span></a></div>
+        <div class="card"><a href="https://ptcafe.club" target="_blank"><span class="site-title">P T咖啡</span></a></div>
+        <div class="card"><a href="https://gebi1.cn/forum.php" target="_blank"><span class="site-title">隔壁网</span></a></div>
+        <div class="card"><a href="https://xdypt.vip/" target="_blank"><span class="site-title">修道院</span></a></div>
+        <div class="card"><a href="https://pt.novahd.top/" target="_blank"><span class="site-title">星云 PT</span></a></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+      </div>
+    </div>
+
+    <!-- ===== 分类2：开发 ===== -->
+    <div class="category">
+      <div class="category-title">
+        <div class="title-left">
+          <span class="category-indicator"></span>
+          <span>💻 开发</span>
+        </div>
+        <span class="category-spec">4×4</span>
+      </div>
+      <div class="card-grid">
+        <div class="card"><a href="https://gemini.google.com" target="_blank"><span class="site-title">Gemini</span></a></div>
+        <div class="card"><a href="https://chatgpt.com" target="_blank"><span class="site-title">ChatGPT</span></a></div>
+        <div class="card"><a href="https://www.deepseek.com" target="_blank"><span class="site-title">DeepSeek</span></a></div>
+        <div class="card"><a href="https://www.docker.com" target="_blank"><span class="site-title">Docker</span></a></div>
+        <div class="card"><a href="https://apinex.bond/" target="_blank"><span class="site-title">apinex</span></a></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+      </div>
+    </div>
+
+    <!-- ===== 分类3：学习 ===== -->
+    <div class="category">
+      <div class="category-title">
+        <div class="title-left">
+          <span class="category-indicator"></span>
+          <span>📚 学习</span>
+        </div>
+        <span class="category-spec">4×4</span>
+      </div>
+      <div class="card-grid">
+        <div class="card"><a href="https://www.right.com.cn/forum/forum.php" target="_blank"><span class="site-title">恩山论坛</span></a></div>
+        <div class="card"><a href="https://www.bilibili.com" target="_blank"><span class="site-title">B站</span></a></div>
+        <div class="card"><a href="https://www.coursera.org" target="_blank"><span class="site-title">Coursera</span></a></div>
+        <div class="card"><a href="https://www.duolingo.com" target="_blank"><span class="site-title">多邻国</span></a></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+      </div>
+    </div>
+
+    <!-- ===== 分类4：娱乐 ===== -->
+    <div class="category">
+      <div class="category-title">
+        <div class="title-left">
+          <span class="category-indicator"></span>
+          <span>🎮 娱乐</span>
+        </div>
+        <span class="category-spec">4×4</span>
+      </div>
+      <div class="card-grid">
+        <div class="card"><a href="https://www.hifini2.com" target="_blank"><span class="site-title">音乐磁场</span></a></div>
+        <div class="card"><a href="https://www.spotify.com" target="_blank"><span class="site-title">Spotify</span></a></div>
+        <div class="card"><a href="https://www.netflix.com" target="_blank"><span class="site-title">Netflix</span></a></div>
+        <div class="card"><a href="https://www.twitch.tv" target="_blank"><span class="site-title">Twitch</span></a></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+      </div>
+    </div>
+
+    <!-- ===== 分类5：工作 ===== -->
+    <div class="category">
+      <div class="category-title">
+        <div class="title-left">
+          <span class="category-indicator"></span>
+          <span>💼 工作</span>
+        </div>
+        <span class="category-spec">4×4</span>
+      </div>
+      <div class="card-grid">
+        <div class="card"><a href="https://www.kdocs.cn/latest" target="_blank"><span class="site-title">金山文档</span></a></div>
+        <div class="card"><a href="http://s.ieslab.cn" target="_blank"><span class="site-title">OA</span></a></div>
+        <div class="card"><a href="http://172.18.10.52" target="_blank"><span class="site-title">MES</span></a></div>
+        <div class="card"><a href="http://erpapp.ieslab.com.cn:8000" target="_blank"><span class="site-title">ERP</span></a></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+      </div>
+    </div>
+
+    <!-- ===== 分类6：网络资源 ===== -->
+    <div class="category">
+      <div class="category-title">
+        <div class="title-left">
+          <span class="category-indicator"></span>
+          <span>🌐 网络资源</span>
+        </div>
+        <span class="category-spec">4×4</span>
+      </div>
+      <div class="card-grid">
+        <div class="card"><a href="http://cpanel.hyperphp.com/index.php" target="_blank"><span class="site-title">虚拟主机</span></a></div>
+        <div class="card"><a href="https://xn--9kqz23b19z.com" target="_blank"><span class="site-title">良心云</span></a></div>
+        <div class="card"><a href="https://xn--4gqx1hgtfdmt.com" target="_blank"><span class="site-title">一分机场</span></a></div>
+        <div class="card"><a href="https://xn--ehqx7tcnnope.com/" target="_blank"><span class="site-title">三毛机场</span></a></div>
+        <div class="card"><a href="https://www.itdog.cn/ping" target="_blank"><span class="site-title">在线Ping</span></a></div>
+        <div class="card"><a href="https://www.cloudflare.com/" target="_blank"><span class="site-title">cloudflare</span></a></div>
+        <div class="card"><a href="https://www.cpupm.com/" target="_blank"><span class="site-title">CPU排行榜</span></a></div>
+        <div class="card"><a href="https://ippure.com/" target="_blank"><span class="site-title">IP检测</span></a></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+      </div>
+    </div>
+
+    <!-- ===== 分类7：备用 ===== -->
+    <div class="category">
+      <div class="category-title">
+        <div class="title-left">
+          <span class="category-indicator"></span>
+          <span>📦 备用</span>
+        </div>
+        <span class="category-spec">4×4</span>
+      </div>
+      <div class="card-grid">
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+      </div>
+    </div>
+
+    <!-- ===== 分类8：备用 ===== -->
+    <div class="category">
+      <div class="category-title">
+        <div class="title-left">
+          <span class="category-indicator"></span>
+          <span>📦 备用</span>
+        </div>
+        <span class="category-spec">4×4</span>
+      </div>
+      <div class="card-grid">
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+      </div>
+    </div>
+
+    <!-- ===== 分类9：备用 ===== -->
+    <div class="category">
+      <div class="category-title">
+        <div class="title-left">
+          <span class="category-indicator"></span>
+          <span>📦 备用</span>
+        </div>
+        <span class="category-spec">4×4</span>
+      </div>
+      <div class="card-grid">
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+        <div class="card empty"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state">🔍 没有找到匹配的站点</div>
+
+  <div class="footer">
+    <span>[</span> 简洁导航 · 终端直达 <span>]</span>
+  </div>
+</div>
+
+<script>
+  /* ===== 自动抓取站点图标 ===== */
+  const DEFAULT_LOGO = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230284c7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z'/%3E%3C/svg%3E";
+
+  document.querySelectorAll('.card:not(.empty) a').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    const img = document.createElement('img');
+    img.className = 'site-icon';
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.onerror = function () {
+      this.onerror = null;
+      this.src = DEFAULT_LOGO;
+    };
+
+    try {
+      const domain = new URL(href).hostname;
+      img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+    } catch (e) {
+      img.src = DEFAULT_LOGO;
+    }
+
+    link.insertBefore(img, link.firstChild);
+  });
+
+  /* ===== 实时搜索过滤 ===== */
+  const searchInput = document.getElementById('siteSearch');
+  const emptyState = document.querySelector('.empty-state');
+  const categories = Array.from(document.querySelectorAll('.category'));
+
+  function applyFilter() {
+    const q = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    categories.forEach(cat => {
+      let catVisible = 0;
+
+      cat.querySelectorAll('.card').forEach(card => {
+        // 空白占位卡片：有搜索词时隐藏
+        if (card.classList.contains('empty')) {
+          card.classList.toggle('is-hidden', q.length > 0);
+          return;
+        }
+        if (!q) {
+          card.classList.remove('is-hidden');
+          catVisible++;
+          return;
+        }
+        const a = card.querySelector('a');
+        const haystack = (card.textContent + ' ' + (a ? a.getAttribute('href') : '')).toLowerCase();
+        const hit = haystack.includes(q);
+        card.classList.toggle('is-hidden', !hit);
+        if (hit) catVisible++;
+      });
+
+      cat.classList.toggle('is-hidden', q.length > 0 && catVisible === 0);
+      visibleCount += catVisible;
+    });
+
+    emptyState.classList.toggle('show', q.length > 0 && visibleCount === 0);
+  }
+
+  searchInput.addEventListener('input', applyFilter);
+  searchInput.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      searchInput.value = '';
+      applyFilter();
+      searchInput.blur();
+    }
+  });
+</script>
+</body>
+</html>
